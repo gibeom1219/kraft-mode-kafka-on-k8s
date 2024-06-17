@@ -97,13 +97,13 @@ spec:
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchExpressions:
-                  - key: "app.stateful/component"
-                    operator: In
-                    values:
-                      - "kafka-broker"
-              topologyKey: "kubernetes.io/hostname"
+          - labelSelector:
+              matchExpressions:
+              - key: "app.stateful/component"
+                operator: In
+                values:
+                - "kafka-broker"
+            topologyKey: "kubernetes.io/hostname"
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
           - weight: 1
