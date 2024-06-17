@@ -61,9 +61,8 @@ spec:
             topologyKey: "kubernetes.io/hostname"
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-          - weight: 1
-            preference:
-              matchExpressions:
+            nodeSelectorTerms:
+            - matchExpressions:
               - key: "app.stateful/component"
                 operator: In
                 values:
