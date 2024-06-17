@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
         - name: kafka-kraft-app-container
-          image: syspago/kafka-kraft
+          image: syspago/kafka-kraft:1.0.0
           ports:
             - containerPort: 9092
             - containerPort: 9093
