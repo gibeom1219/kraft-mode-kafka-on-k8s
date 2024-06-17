@@ -1,30 +1,27 @@
----
-
----
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: kafka
+  name: kafka-kraft-sts
   labels:
-    app: kafka-app
+    app: kafka-kraft-app
   namespace: kafka-kraft
 spec:
-  serviceName: kafka-svc
+  serviceName: kafka-kraft-svc
   replicas: 3
   selector:
     matchLabels:
-      app: kafka-app
+      app: kafka-kraft-app
   template:
     metadata:
       labels:
-        app: kafka-app
+        app: kafka-kraft-app
     spec:
       volumes:
-        - name: kafka-storage
+        - name: kafka-kraft-storage
           persistentVolumeClaim:
-            claimName: kafka-pv-claim
+            claimName: kafka-kraft-pvc
       containers:
-        - name: kafka-container
+        - name: kafka-kraft-app-container
           image: root/kafka-kraft
           ports:
             - containerPort: 9092
@@ -33,14 +30,14 @@ spec:
             - name: REPLICAS
               value: '3'
             - name: SERVICE
-              value: kafka-svc
+              value: kafka-kraft-svc
             - name: NAMESPACE
               value: kafka-kraft
             - name: SHARE_DIR
-              value: /mnt/kafka
+              value: /mnt/kafka-kraft
           volumeMounts:
-            - name: kafka-storage
-              mountPath: /mnt/kafka
+            - name: kafka-kraft-storage
+              mountPath: /mnt/kafka-kraft
 #### You only want Kafka running on an independent node and don't want it to mix with other application pods.
 #      tolerations:
 #      - key: "app.stateful/component"
@@ -55,7 +52,7 @@ spec:
               - key: "app.stateful/component"
                 operator: In
                 values:
-                - "kafka-broker"
+                - "kafka-kraft-broker"
             topologyKey: "kubernetes.io/hostname"
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -65,7 +62,7 @@ spec:
               - key: "app.stateful/component"
                 operator: In
                 values:
-                - "kafka-broker"
+                - "kafka-kraft-broker"
 #### In any public cloud, a zone groups together resources that may fail together
 #      topologySpreadConstraints:
 #      - maxSkew: 1
