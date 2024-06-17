@@ -72,7 +72,7 @@ spec:
             claimName: kafka-pv-claim
       containers:
         - name: kafka-container
-          image: docker_username/kafka-kraft
+          image: root/kafka-kraft
           ports:
             - containerPort: 9092
             - containerPort: 9093
@@ -88,3 +88,36 @@ spec:
           volumeMounts:
             - name: kafka-storage
               mountPath: /mnt/kafka
+#### You only want Kafka running on an independent node and don't want it to mix with other application pods.
+#      tolerations:
+#      - key: "app.stateful/component"
+#        operator: "Equal"
+#        value: "kafka-broker"
+#        effect: NoSchedule
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: "app.stateful/component"
+                operator: In
+                values:
+                - "kafka-broker"
+            topologyKey: "kubernetes.io/hostname"
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: "app.stateful/component"
+                operator: In
+                values:
+                - "kafka-broker"
+#### In any public cloud, a zone groups together resources that may fail together
+#      topologySpreadConstraints:
+#      - maxSkew: 1
+#        topologyKey: topology.kubernetes.io/zone
+#        whenUnsatisfiable: DoNotSchedule
+#        labelSelector:
+#          matchLabels:
+#            app: kafka-app
