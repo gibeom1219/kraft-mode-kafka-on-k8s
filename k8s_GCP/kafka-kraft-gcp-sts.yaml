@@ -15,6 +15,15 @@ spec:
     metadata:
       labels:
         app: kafka-kraft-app
+  volumeClaimTemplates:
+  - metadata:
+      name: kafka-kraft-storage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "kafka-kraft-sc"
+      resources:
+        requests:
+          storage: 50Gi
     spec:
       volumes:
         - name: kafka-kraft-storage
