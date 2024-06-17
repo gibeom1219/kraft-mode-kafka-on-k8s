@@ -11,6 +11,15 @@ spec:
   selector:
     matchLabels:
       app: kafka-kraft-app
+  volumeClaimTemplates:
+  - metadata:
+      name: kafka-kraft-pvc
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "kafka-kraft-sc"
+      resources:
+        requests:
+          storage: 50Gi
   template:
     metadata:
       labels:
@@ -34,15 +43,6 @@ spec:
           volumeMounts:
             - name: kafka-kraft-pvc
               mountPath: /mnt/kafka-kraft
-  volumeClaimTemplates:
-  - metadata:
-      name: kafka-kraft-pvc
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "kafka-kraft-sc"
-      resources:
-        requests:
-          storage: 50Gi
 #### You only want Kafka running on an independent node and don't want it to mix with other application pods.
 #      tolerations:
 #      - key: "app.stateful/component"
