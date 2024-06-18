@@ -41,7 +41,7 @@ spec:
             - name: SHARE_DIR
               value: /mnt/kafka-kraft
             - name: CLUSTER_ID
-              value: sRDHk1tESiy02XLbFBC8MQ
+              value: sRDHk1tESiy02XLbFBC8MQ # edit this value to cluster_id of the kafka-kraft-sts-0(pod)
           volumeMounts:
             - name: kafka-kraft-pvc
               mountPath: /mnt/kafka-kraft
