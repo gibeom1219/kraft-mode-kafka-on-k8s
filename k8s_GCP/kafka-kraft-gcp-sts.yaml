@@ -40,6 +40,8 @@ spec:
               value: kafka-kraft
             - name: SHARE_DIR
               value: /mnt/kafka-kraft
+            - name: CLUSTER_ID
+              value: sRDHk1tESiy02XLbFBC8MQ
           volumeMounts:
             - name: kafka-kraft-pvc
               mountPath: /mnt/kafka-kraft
