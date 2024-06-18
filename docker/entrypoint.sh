@@ -20,8 +20,8 @@ mkdir -p $SHARE_DIR/$NODE_ID
 if [[ ! -f "$SHARE_DIR/cluster_id" && "$NODE_ID" = "0" ]]; then
     CLUSTER_ID=$(kafka-storage.sh random-uuid)
     echo $CLUSTER_ID > $SHARE_DIR/cluster_id
-else
-    CLUSTER_ID=$(cat $SHARE_DIR/cluster_id)
+#else
+#    CLUSTER_ID=$(cat $SHARE_DIR/cluster_id)
 fi
 
 sed -e "s+^node.id=.*+node.id=$NODE_ID+" \
